@@ -43,7 +43,6 @@ public abstract class LivingEntityMixin  extends Entity {
             dropItem(this.getEquippedStack(EquipmentSlot.LEGS).getItem());
             dropItem(this.getEquippedStack(EquipmentSlot.FEET).getItem());
 
-            // You can repeat this for other equipment slots
         }
     }
 
