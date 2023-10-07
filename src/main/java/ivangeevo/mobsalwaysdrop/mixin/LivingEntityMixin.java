@@ -3,6 +3,7 @@ package ivangeevo.mobsalwaysdrop.mixin;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.HorseEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
@@ -28,21 +29,22 @@ public abstract class LivingEntityMixin  extends Entity {
     private void injectedDropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci) {
         boolean dropEquipment = true;
 
-        // Existing code for dropping equipment...
+        if (!((LivingEntity) (Object) this instanceof PlayerEntity)) {
 
-        // Drop equipment items here
-        if (!((LivingEntity)(Object)this instanceof HorseEntity)) {
-            dropItem(this.getEquippedStack(EquipmentSlot.CHEST).getItem());
+            // Drop equipment items here
+            if (!((LivingEntity) (Object) this instanceof HorseEntity)) {
+                dropItem(this.getEquippedStack(EquipmentSlot.CHEST).getItem());
+            }
+
+            dropItem(this.getEquippedStack(EquipmentSlot.MAINHAND).getItem());
+            dropItem(this.getEquippedStack(EquipmentSlot.OFFHAND).getItem());
+
+            dropItem(this.getEquippedStack(EquipmentSlot.HEAD).getItem());
+            dropItem(this.getEquippedStack(EquipmentSlot.LEGS).getItem());
+            dropItem(this.getEquippedStack(EquipmentSlot.FEET).getItem());
+
+            // You can repeat this for other equipment slots
         }
-
-        dropItem(this.getEquippedStack(EquipmentSlot.MAINHAND).getItem());
-        dropItem(this.getEquippedStack(EquipmentSlot.OFFHAND).getItem());
-
-        dropItem(this.getEquippedStack(EquipmentSlot.HEAD).getItem());
-        dropItem(this.getEquippedStack(EquipmentSlot.LEGS).getItem());
-        dropItem(this.getEquippedStack(EquipmentSlot.FEET).getItem());
-
-        // You can repeat this for other equipment slots
     }
 
     @Inject(method = "dropXp", at = @At("HEAD"), cancellable = true)
