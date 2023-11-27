@@ -1,5 +1,0 @@
-v1	named	intermediary
-FIELD	ivangeevo/mobsalwaysdrop/mixin/MobEntityMixin	[F	armorDropChances	field_6186
-FIELD	ivangeevo/mobsalwaysdrop/mixin/MobEntityMixin	[F	handDropChances	field_6187
-METHOD	ivangeevo/mobsalwaysdrop/mixin/LivingEntityMixin	(Lnet/minecraft/entity/EquipmentSlot;)Lnet/minecraft/item/ItemStack;	getEquippedStack	method_6118
-METHOD	ivangeevo/mobsalwaysdrop/mixin/LivingEntityMixin	()I	getXpToDrop	method_6110
