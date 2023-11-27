@@ -1,0 +1,32 @@
+{
+  "schemaVersion":1,
+  "id":"mobs-always-drop",
+  "version":"1.2",
+  "name":"mobs-always-drop",
+  "description":"",
+  "authors":[
+    "ivangeevo"
+  ],
+  "contact":{
+    "repo":"https://github.com/Ivan/mobs-always-dropw-remastered-private"
+  },
+  "license":"All-Rights-Reserved",
+  "icon":"assets/mobs-always-drop/icon.png",
+  "environment":"*",
+  "entrypoints":{
+    "client":[
+      "ivangeevo.mobsalwaysdrop.client.MobsAlwaysDropClient"
+    ],
+    "main":[
+      "ivangeevo.mobsalwaysdrop.MobsAlwaysDrop"
+    ]
+  },
+  "mixins":[
+    "mobs-always-drop.mixins.json"
+  ],
+  "depends":{
+    "fabricloader":">=0.14.22",
+    "fabric":"*",
+    "minecraft":"1.19.2"
+  }
+}

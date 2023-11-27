@@ -1,0 +1,28 @@
+{
+  "mappings": {
+    "ivangeevo/mobsalwaysdrop/mixin/LivingEntityMixin": {
+      "dropEquipment": "Lnet/minecraft/class_1309;method_6099(Lnet/minecraft/class_1282;IZ)V",
+      "dropXp": "Lnet/minecraft/class_1309;method_23883()V"
+    },
+    "ivangeevo/mobsalwaysdrop/mixin/MobEntityMixin": {
+      "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V": "Lnet/minecraft/class_1308;<init>(Lnet/minecraft/class_1299;Lnet/minecraft/class_1937;)V"
+    },
+    "ivangeevo/mobsalwaysdrop/mixin/ZombieEntityMixin": {
+      "initialize": "Lnet/minecraft/class_1642;method_5943(Lnet/minecraft/class_5425;Lnet/minecraft/class_1266;Lnet/minecraft/class_3730;Lnet/minecraft/class_1315;Lnet/minecraft/class_2487;)Lnet/minecraft/class_1315;"
+    }
+  },
+  "data": {
+    "named:intermediary": {
+      "ivangeevo/mobsalwaysdrop/mixin/LivingEntityMixin": {
+        "dropEquipment": "Lnet/minecraft/class_1309;method_6099(Lnet/minecraft/class_1282;IZ)V",
+        "dropXp": "Lnet/minecraft/class_1309;method_23883()V"
+      },
+      "ivangeevo/mobsalwaysdrop/mixin/MobEntityMixin": {
+        "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V": "Lnet/minecraft/class_1308;<init>(Lnet/minecraft/class_1299;Lnet/minecraft/class_1937;)V"
+      },
+      "ivangeevo/mobsalwaysdrop/mixin/ZombieEntityMixin": {
+        "initialize": "Lnet/minecraft/class_1642;method_5943(Lnet/minecraft/class_5425;Lnet/minecraft/class_1266;Lnet/minecraft/class_3730;Lnet/minecraft/class_1315;Lnet/minecraft/class_2487;)Lnet/minecraft/class_1315;"
+      }
+    }
+  }
+}

@@ -27,26 +27,59 @@ public abstract class LivingEntityMixin  extends Entity {
 
     @Inject(method = "dropEquipment", at = @At("HEAD"))
     private void injectedDropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci) {
-        boolean dropEquipment = true;
-
-        if (!((LivingEntity) (Object) this instanceof PlayerEntity)) {
-
-            // Drop equipment items here
-            if (!((LivingEntity) (Object) this instanceof HorseEntity)) {
-                dropItem(this.getEquippedStack(EquipmentSlot.CHEST).getItem());
-            }
-
-            dropItem(this.getEquippedStack(EquipmentSlot.MAINHAND).getItem());
-            dropItem(this.getEquippedStack(EquipmentSlot.OFFHAND).getItem());
-
-            dropItem(this.getEquippedStack(EquipmentSlot.HEAD).getItem());
-            dropItem(this.getEquippedStack(EquipmentSlot.LEGS).getItem());
-            dropItem(this.getEquippedStack(EquipmentSlot.FEET).getItem());
-
-            // You can repeat this for other equipment slots
+        // EquipmentSlot.CHEST
+        ItemStack chestItemStack = this.getEquippedStack(EquipmentSlot.CHEST);
+        if (!chestItemStack.isEmpty()) {
+            handleDropItem(chestItemStack, lootingMultiplier, EquipmentSlot.CHEST);
         }
+
+        // EquipmentSlot.MAINHAND
+        ItemStack mainhandItemStack = this.getEquippedStack(EquipmentSlot.MAINHAND);
+        if (!mainhandItemStack.isEmpty()) {
+            handleDropItem(mainhandItemStack, lootingMultiplier, EquipmentSlot.MAINHAND);
+        }
+
+        // EquipmentSlot.OFFHAND
+        ItemStack offhandItemStack = this.getEquippedStack(EquipmentSlot.OFFHAND);
+        if (!offhandItemStack.isEmpty()) {
+            handleDropItem(offhandItemStack, lootingMultiplier, EquipmentSlot.OFFHAND);
+        }
+
+        // EquipmentSlot.HEAD
+        ItemStack headItemStack = this.getEquippedStack(EquipmentSlot.HEAD);
+        if (!headItemStack.isEmpty()) {
+            handleDropItem(headItemStack, lootingMultiplier, EquipmentSlot.HEAD);
+        }
+
+        // EquipmentSlot.LEGS
+        ItemStack legsItemStack = this.getEquippedStack(EquipmentSlot.LEGS);
+        if (!legsItemStack.isEmpty()) {
+            handleDropItem(legsItemStack, lootingMultiplier, EquipmentSlot.LEGS);
+        }
+
+        // EquipmentSlot.FEET
+        ItemStack feetItemStack = this.getEquippedStack(EquipmentSlot.FEET);
+        if (!feetItemStack.isEmpty()) {
+            handleDropItem(feetItemStack, lootingMultiplier, EquipmentSlot.FEET);
+        }
+
+        // You can repeat this for other equipment slots
     }
 
+    private void handleDropItem(ItemStack itemStack, int lootingMultiplier, EquipmentSlot slot) {
+        // Set the drop chance to 1.0f to ensure it always drops.
+        float f = 1.0f;
+
+        if (itemStack.isDamageable()) {
+            int maxDamage = itemStack.getMaxDamage();
+            int newDamage = maxDamage - this.random.nextInt(1 + this.random.nextInt(Math.max(maxDamage - 3, 1)));
+            itemStack.setDamage(newDamage);
+        }
+
+        if (!itemStack.isEmpty() && Math.max(this.random.nextFloat() - (float) lootingMultiplier * 0.01f, 0.0f) < f) {
+            this.dropStack(itemStack);
+        }
+    }
     @Inject(method = "dropXp", at = @At("HEAD"), cancellable = true)
     private void injectedDropXP(CallbackInfo ci){
         if (this.world instanceof ServerWorld) {
