@@ -1,17 +1,26 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.ZombieEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ZombieEntity.class)
@@ -21,15 +30,47 @@ public abstract class ZombieEntityMixin extends HostileEntity {
     protected ZombieEntityMixin(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
+    private static final boolean isBTWRLoaded = FabricLoader.getInstance().isModLoaded("btwr");
 
-    @Inject(method = "initialize", at = @At("RETURN"))
-    private void onInitialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, EntityData entityData, NbtCompound entityNbt, CallbackInfoReturnable<EntityData> info) {
-        // Modify the chance of zombies picking up loot here
-        if (entityData instanceof ZombieEntity.ZombieData) {
-            ZombieEntity.ZombieData zombieData = (ZombieEntity.ZombieData)entityData;
-            float lootChance = 0.0f; // Set the chance to 0 here
-            this.setCanPickUpLoot(world.getRandom().nextFloat() < lootChance);
+    @ModifyConstant(method = "initialize",
+            constant = @Constant(floatValue = 0.55F))
+    private float modifyPickUpChance(float original) {
+
+        return 0f;
+    }
+
+
+    @Inject(method = "initEquipment", at = @At("HEAD"), cancellable = true)
+    private void injectedInitEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci) {
+        super.initEquipment(random, localDifficulty);
+        float f = random.nextFloat();
+
+        // BTWR modified floats
+        float difficultyChance;
+        float hardDifficultyChance;
+
+
+        if (isBTWRLoaded) {
+            difficultyChance = 0.03f;
+            hardDifficultyChance = 0.007f;
+        } else {
+            difficultyChance = 0.05f;
+            hardDifficultyChance = 0.01f;
         }
+
+        // Lower the chance of spawning with tool
+        float f2 = this.world.getDifficulty() == Difficulty.HARD ? hardDifficultyChance : difficultyChance;
+        if (f < f2) {
+            int i = random.nextInt(3);
+            if (i == 0) {
+
+                // and specify the custom tools to equip
+                this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SWORD));
+            } else {
+                this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(Items.IRON_SHOVEL));
+            }
+        }
+        ci.cancel();
     }
 
 

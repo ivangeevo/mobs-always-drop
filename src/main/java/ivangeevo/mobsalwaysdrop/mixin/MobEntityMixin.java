@@ -1,5 +1,7 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -37,12 +39,199 @@ public abstract class MobEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
+    private static final boolean isBTWRLoaded = FabricLoader.getInstance().isModLoaded("btwr");
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("TAIL"))
     private void injectedConstructor(EntityType entityType, World world, CallbackInfo ci) {
         // Change armorDropChances and handDropChances arrays to 0.0F, because we modify them directly in the LivingEntity class.
         Arrays.fill(this.armorDropChances, 0.0F);
         Arrays.fill(this.handDropChances, 0.0F);
+    }
+
+    @Inject(method = "initEquipment", at = @At("HEAD"), cancellable = true)
+    private void injectedInitEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci) {
+
+
+        float dropChance;
+        float difficultyChance;
+        float hardDifficultyChance;
+        float addRandomChanceToDropChance;
+
+        if (isBTWRLoaded) {
+            dropChance = 0.11f;
+            difficultyChance = 0.1f;
+            hardDifficultyChance = 0.05f;
+            addRandomChanceToDropChance = 0.035f;
+        } else {
+            dropChance = 0.15f;
+            difficultyChance = 0.25f;
+            hardDifficultyChance = 0.1f;
+            addRandomChanceToDropChance = 0.095f;
+        }
+
+
+        if (random.nextFloat() < dropChance * localDifficulty.getClampedLocalDifficulty()) {
+            float f;
+            int i = random.nextInt(2);
+            float f2 = f = this.world.getDifficulty() == Difficulty.HARD ? hardDifficultyChance : difficultyChance;
+            if (random.nextFloat() < addRandomChanceToDropChance) {
+                ++i;
+            }
+            if (random.nextFloat() < addRandomChanceToDropChance) {
+                ++i;
+            }
+            if (random.nextFloat() < addRandomChanceToDropChance) {
+                ++i;
+            }
+            boolean bl = true;
+            for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+                Item item;
+                if (equipmentSlot.getType() != EquipmentSlot.Type.ARMOR) continue;
+                ItemStack itemStack = this.getEquippedStack(equipmentSlot);
+                if (!bl && random.nextFloat() < f) break;
+                bl = false;
+                if (!itemStack.isEmpty() || (item = MobEntity.getEquipmentForSlot(equipmentSlot, i)) == null) continue;
+                this.equipStack(equipmentSlot, new ItemStack(item));
+            }
+        }
+        ci.cancel();
+    }
+
+    @Inject(method = "getEquipmentForSlot", at = @At("HEAD"), cancellable = true)
+    private static void injectedGetEquip(EquipmentSlot equipmentSlot, int equipmentLevel, CallbackInfoReturnable<Item> cir) {
+
+        if (isBTWRLoaded) {
+
+            switch (equipmentSlot) {
+                case HEAD:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_HELMET);
+                    }  else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_HELMET);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_HELMET);
+                    }
+                case CHEST:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_CHESTPLATE);
+                    }  else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_CHESTPLATE);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_CHESTPLATE);
+                    }
+                case LEGS:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_LEGGINGS);
+                    }  else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_LEGGINGS);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_LEGGINGS);
+                    }
+                case FEET:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_BOOTS);
+                    } else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_BOOTS);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_BOOTS);
+                    }
+                default:
+                    cir.setReturnValue(null);
+
+            }
+        } else {
+            switch (equipmentSlot) {
+                case HEAD:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_HELMET);
+                    } else if (equipmentLevel == 1) {
+                        cir.setReturnValue(Items.GOLDEN_HELMET);
+                    } else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_HELMET);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_HELMET);
+                    } else if (equipmentLevel == 4) {
+                        cir.setReturnValue(Items.DIAMOND_HELMET);
+                    }
+                case CHEST:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_CHESTPLATE);
+                    } else if (equipmentLevel == 1) {
+                        cir.setReturnValue(Items.GOLDEN_CHESTPLATE);
+                    } else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_CHESTPLATE);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_CHESTPLATE);
+                    } else if (equipmentLevel == 4) {
+                        cir.setReturnValue(Items.DIAMOND_CHESTPLATE);
+                    }
+                case LEGS:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_LEGGINGS);
+                    } else if (equipmentLevel == 1) {
+                        cir.setReturnValue(Items.GOLDEN_LEGGINGS);
+                    } else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_LEGGINGS);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_LEGGINGS);
+                    } else if (equipmentLevel == 4) {
+                        cir.setReturnValue(Items.DIAMOND_LEGGINGS);
+                    }
+                case FEET:
+                    if (equipmentLevel == 0) {
+                        cir.setReturnValue(Items.LEATHER_BOOTS);
+                    } else if (equipmentLevel == 1) {
+                        cir.setReturnValue(Items.GOLDEN_BOOTS);
+                    } else if (equipmentLevel == 2) {
+                        cir.setReturnValue(Items.CHAINMAIL_BOOTS);
+                    } else if (equipmentLevel == 3) {
+                        cir.setReturnValue(Items.IRON_BOOTS);
+                    } else if (equipmentLevel == 4) {
+                        cir.setReturnValue(Items.DIAMOND_BOOTS);
+                    }
+                default:
+                    cir.setReturnValue(null);
+
+            }
+        }
+    }
+
+       
+
+
+    @Inject(method = "enchantEquipment", at = @At("HEAD"), cancellable = true)
+    private void cancelEnchantEquipment(Random random, float power, EquipmentSlot slot, CallbackInfo ci) {
+        ItemStack itemStack = this.getEquippedStack(slot);
+        float dropChance;
+
+        if (isBTWRLoaded) {
+            dropChance = 0.1f;
+        } else {
+            dropChance = 0.5f;
+        }
+
+        if (!itemStack.isEmpty() && random.nextFloat() < dropChance * power) {
+            this.equipStack(slot, EnchantmentHelper.enchant(random, itemStack, (int)(5.0f + power * (float)random.nextInt(18)), false));
+        }
+        ci.cancel();
+    }
+
+    @Inject(method = "enchantMainHandItem", at = @At("HEAD"), cancellable = true)
+    private void cancelEnchantMainHandItem(Random random, float power, CallbackInfo ci) {
+        float dropChance;
+
+        if (isBTWRLoaded) {
+            dropChance = 0.25f;
+        } else {
+            dropChance = 0.15f;
+        }
+        
+        
+        if (!this.getMainHandStack().isEmpty() && random.nextFloat() < dropChance * power) {
+            this.equipStack(EquipmentSlot.MAINHAND, EnchantmentHelper.enchant(random, this.getMainHandStack(), (int)(5.0f + power * (float)random.nextInt(18)), false));
+        }
+        ci.cancel();
+
     }
 
 }

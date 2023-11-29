@@ -4,6 +4,7 @@
   "package":"ivangeevo.mobsalwaysdrop.mixin",
   "compatibilityLevel":"JAVA_17",
   "mixins":[
+    "AbstractSkeletonEntityMixin",
     "LivingEntityMixin",
     "MobEntityMixin",
     "ZombieEntityMixin"
