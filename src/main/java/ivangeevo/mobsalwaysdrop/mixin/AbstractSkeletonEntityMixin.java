@@ -17,10 +17,6 @@ public abstract class AbstractSkeletonEntityMixin extends HostileEntity implemen
         super(entityType, world);
     }
 
-    @ModifyConstant(method = "initialize",
-            constant = @Constant(floatValue = 0.55F))
-    private float modifyPickUpChance(float original) {
-
-        return 0f;
-    }
+    @ModifyConstant(method = "initialize", constant = @Constant(floatValue = 0.55F))
+    private float setPickupChance(float original) {return 0f;}
 }

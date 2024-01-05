@@ -9,6 +9,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -66,6 +67,7 @@ public abstract class LivingEntityMixin  extends Entity {
         // You can repeat this for other equipment slots
     }
 
+    @Unique
     private void handleDropItem(ItemStack itemStack, int lootingMultiplier, EquipmentSlot slot) {
         // Set the drop chance to 1.0f to ensure it always drops.
         float f = 1.0f;
