@@ -43,6 +43,8 @@ public abstract class MobEntityMixin extends LivingEntity implements SideModUtil
 
 
     /** Modifying the chance for mobs spawning with tools. **/
+    // TODO: Can be removed I think.
+
     @Inject(method = "initEquipment", at = @At("HEAD"), cancellable = true)
     private void injectedInitEquipment(Random random, LocalDifficulty localDifficulty, CallbackInfo ci) {
 
