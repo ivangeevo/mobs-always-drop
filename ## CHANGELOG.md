@@ -1,5 +1,5 @@
 ## v1.5
-+ Fixed a bug that made mobs NOT able to pick up items(hopefully lol)
++ Fixed a bug that made mobs NOT able to pick up items
 + Fixed some unique code in the mod that didn't make sense.
 + Updated the mod to, Loom 1.5, Fabric Loader 0.15.11 & Fabric API 0.92.2
 
