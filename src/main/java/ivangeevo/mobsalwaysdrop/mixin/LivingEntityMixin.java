@@ -1,5 +1,6 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.HorseEntity;
@@ -16,13 +17,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin  extends Entity {
+public abstract class LivingEntityMixin  extends Entity
+{
 
-    public LivingEntityMixin(EntityType<?> type, World world) {
+    public LivingEntityMixin(EntityType<?> type, World world)
+    {
         super(type, world);
     }
     @Inject(method = "shouldAlwaysDropXp", at = @At("HEAD"), cancellable = true)
-    private void setMobsAlwaysDropXP(CallbackInfoReturnable<Boolean> cir) {
+    private void setMobsAlwaysDropXP(CallbackInfoReturnable<Boolean> cir)
+    {
         cir.setReturnValue(true);
     }
 
