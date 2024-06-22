@@ -37,7 +37,7 @@ public abstract class MobEntityMixin extends LivingEntity
     }
 
     /** Removes the allowDrops boolean check so that it will always drop equipment regardless of cause of death. **/
-    // Also added a minimum durability drop int so there isn't so many "empty damage" items.
+    // Also added a minimum durability drop int condition, so there isn't so many "empty damage" items.
     @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
     private void injectedDropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci)
     {
