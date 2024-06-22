@@ -29,11 +29,6 @@ public abstract class MobEntityMixin extends LivingEntity {
         super(entityType, world);
     }
 
-    @Inject(method = "canPickUpLoot", at = @At("HEAD"), cancellable = true)
-    private void setCanPickUpLoot(CallbackInfoReturnable<Boolean> cir) {
-        cir.setReturnValue(this.canPickUpLoot = false);
-    }
-
     /** Change armor and item drop chances to 1.0F (100% drop chance). **/
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("TAIL"))
     private void injectedConstructor(EntityType entityType, World world, CallbackInfo ci) {
