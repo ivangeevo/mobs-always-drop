@@ -1,37 +1,29 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
-import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Arrays;
 
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin extends LivingEntity
 {
-    @Shadow
-    @Final
-    protected float[] armorDropChances;
-    @Shadow
-    @Final
-    protected float[] handDropChances;
+    @Shadow @Final protected float[] armorDropChances;
+    @Shadow @Final protected float[] handDropChances;
 
-    @Shadow
-    protected abstract float getDropChance(EquipmentSlot slot);
+    @Shadow protected abstract float getDropChance(EquipmentSlot slot);
 
     protected MobEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
         super(entityType, world);
@@ -46,65 +38,29 @@ public abstract class MobEntityMixin extends LivingEntity
         Arrays.fill(this.handDropChances, 1.0F);
     }
 
-    /**
-     * Removes the allowDrops boolean check so that it will always drop equipment regardless of cause of death.
-     **/
+
+
+    /** Removes the allowDrops boolean check so that it will always drop equipment regardless of cause of death. **/
     // Also added a minimum durability drop int condition, so there isn't so many "empty damage" items.
-    //@Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
-    private void OGinjectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
-        super.dropEquipment(world, source, causedByPlayer);
-        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+    @Inject(method = "dropEquipment", at = @At("HEAD"), cancellable = true)
+    private void injectedDropEquipment(DamageSource source, int lootingMultiplier, boolean allowDrops, CallbackInfo ci)
+    {
+        super.dropEquipment(source, lootingMultiplier, allowDrops);
+        for (EquipmentSlot equipmentSlot : EquipmentSlot.values())
+        {
             boolean bl;
             ItemStack itemStack = this.getEquippedStack(equipmentSlot);
             float f = this.getDropChance(equipmentSlot);
             boolean bl2 = bl = f > 1.0f;
-            if (!itemStack.isEmpty() && !EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && (causedByPlayer || bl) && this.random.nextFloat() < f) {
-                if (!bl && itemStack.isDamageable()) {
-                    int minDurabilityDrop = 10;
-                    itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
-                }
-                this.dropStack(itemStack);
-                this.equipStack(equipmentSlot, ItemStack.EMPTY);
+            if (itemStack.isEmpty() || EnchantmentHelper.hasVanishingCurse(itemStack) || !(Math.max(this.random.nextFloat() - (float)lootingMultiplier * 0.01f, 0.0f) < f)) continue;
+            if (!bl && itemStack.isDamageable())
+            {
+                int minDurabilityDrop = 10;
+                itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
             }
-            ci.cancel();
+            this.dropStack(itemStack);
+            this.equipStack(equipmentSlot, ItemStack.EMPTY);
         }
-
-
-    }
-
-    @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
-    private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
-        super.dropEquipment(world, source, causedByPlayer);
-        EquipmentSlot[] var4 = EquipmentSlot.values();
-        int var5 = var4.length;
-
-        for (EquipmentSlot equipmentSlot : var4) {
-            ItemStack itemStack = this.getEquippedStack(equipmentSlot);
-            float f = this.getDropChance(equipmentSlot);
-            if (f != 0.0F) {
-                boolean bl = f > 1.0F;
-                Entity var13 = source.getAttacker();
-                if (var13 instanceof LivingEntity livingEntity) {
-                    World var14 = this.getWorld();
-                    if (var14 instanceof ServerWorld serverWorld) {
-                        f = EnchantmentHelper.getEquipmentDropChance(serverWorld, livingEntity, source, f);
-                    }
-                }
-
-                if (!itemStack.isEmpty() && !EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && (causedByPlayer || bl) && this.random.nextFloat() < f) {
-                    if (!bl && itemStack.isDamageable()) {
-                        int minDurabilityDrop = 10;
-                        itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
-                    }
-
-                    this.dropStack(itemStack);
-                    this.equipStack(equipmentSlot, ItemStack.EMPTY);
-                }
-            }
-        }
-
         ci.cancel();
-
-
     }
 }
