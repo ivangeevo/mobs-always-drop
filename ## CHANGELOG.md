@@ -1,3 +1,6 @@
+## v1.6
++ Added the ability to toggle if equipment/xp can drop through ModMenu.
+
 ## v1.5
 + Fixed a bug that made mobs NOT able to pick up items
 + Fixed some unique code in the mod that didn't make sense.
