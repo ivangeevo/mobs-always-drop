@@ -2,7 +2,7 @@
   "schemaVersion":1,
   "id":"mobs-always-drop",
   "version":"${version}",
-  "name":"mobs-always-drop",
+  "name":"Mobs Always Drop",
   "description":"",
   "authors":[
     "ivangeevo"
