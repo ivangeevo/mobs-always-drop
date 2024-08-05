@@ -1,0 +1,7 @@
+{
+  "title.mobsalwaysdrop.config": "Mobs Always Drop Configuration Menu",
+
+  "config.mobsalwaysdrop.category.general": "General config settings category",
+  "config.mobsalwaysdrop.equipmentDropsEnabled": "Always Drop Equipment",
+  "config.mobsalwaysdrop.xpDropsEnabled": "Always Drop XP"
+}

@@ -1,5 +1,6 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
+import ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
@@ -27,6 +28,11 @@ public abstract class LivingEntityMixin  extends Entity
     @Inject(method = "shouldAlwaysDropXp", at = @At("HEAD"), cancellable = true)
     private void setMobsAlwaysDropXP(CallbackInfoReturnable<Boolean> cir)
     {
+        if (!MobsAlwaysDropMod.getInstance().settings.isXpDropsEnabled())
+        {
+            return;
+        }
+        
         cir.setReturnValue(true);
     }
 

@@ -1,5 +1,6 @@
 package ivangeevo.mobsalwaysdrop.mixin;
 
+import ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -41,7 +42,13 @@ public abstract class MobEntityMixin extends LivingEntity
      * Change armor and item drop chances to 1.0F (100% drop chance).
      **/
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("TAIL"))
-    private void injectedConstructor(EntityType entityType, World world, CallbackInfo ci) {
+    private void injectedConstructor(EntityType entityType, World world, CallbackInfo ci)
+    {
+        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled())
+        {
+            return;
+        }
+
         Arrays.fill(this.armorDropChances, 1.0F);
         Arrays.fill(this.handDropChances, 1.0F);
     }
