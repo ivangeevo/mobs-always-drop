@@ -18,7 +18,10 @@
       "ivangeevo.mobsalwaysdrop.client.MobsAlwaysDropClient"
     ],
     "main":[
-      "ivangeevo.mobsalwaysdrop.MobsAlwaysDrop"
+      "ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod"
+    ],
+    "modmenu": [
+      "ivangeevo.mobsalwaysdrop.config.ModMenuMain"
     ]
   },
   "mixins":[
