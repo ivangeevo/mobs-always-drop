@@ -79,8 +79,11 @@ public abstract class MobEntityMixin extends LivingEntity
 
     }
 
-    @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
-    private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
+    @Inject(method =
+                    "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V",
+            at = @At("HEAD"), cancellable = true)
+    private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci)
+    {
         super.dropEquipment(world, source, causedByPlayer);
         EquipmentSlot[] var4 = EquipmentSlot.values();
         int var5 = var4.length;
@@ -111,7 +114,5 @@ public abstract class MobEntityMixin extends LivingEntity
         }
 
         ci.cancel();
-
-
     }
 }
