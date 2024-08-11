@@ -73,10 +73,9 @@ public abstract class MobEntityMixin extends LivingEntity
                 this.dropStack(itemStack);
                 this.equipStack(equipmentSlot, ItemStack.EMPTY);
             }
+bu
             ci.cancel();
         }
-
-
     }
 
     @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
@@ -111,7 +110,5 @@ public abstract class MobEntityMixin extends LivingEntity
         }
 
         ci.cancel();
-
-
     }
 }
