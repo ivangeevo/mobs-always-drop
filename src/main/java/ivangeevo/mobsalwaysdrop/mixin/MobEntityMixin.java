@@ -54,36 +54,12 @@ public abstract class MobEntityMixin extends LivingEntity
     }
 
     /**
-     * Removes the allowDrops boolean check so that it will always drop equipment regardless of cause of death.
+     * Removes the (causedByPlayer || bl) boolean checks so that it will always drop equipment regardless of cause of death.
      **/
     // Also added a minimum durability drop int condition, so there isn't so many "empty damage" items.
-    //@Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
-    private void OGinjectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
-        super.dropEquipment(world, source, causedByPlayer);
-        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
-            boolean bl;
-            ItemStack itemStack = this.getEquippedStack(equipmentSlot);
-            float f = this.getDropChance(equipmentSlot);
-            boolean bl2 = bl = f > 1.0f;
-            if (!itemStack.isEmpty() && !EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && (causedByPlayer || bl) && this.random.nextFloat() < f) {
-                if (!bl && itemStack.isDamageable()) {
-                    int minDurabilityDrop = 10;
-                    itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
-                }
-                this.dropStack(itemStack);
-                this.equipStack(equipmentSlot, ItemStack.EMPTY);
-            }
-            ci.cancel();
-        }
 
-
-    }
-
-    @Inject(method =
-                    "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V",
-            at = @At("HEAD"), cancellable = true)
-    private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci)
-    {
+    @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
+    private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         super.dropEquipment(world, source, causedByPlayer);
         EquipmentSlot[] var4 = EquipmentSlot.values();
         int var5 = var4.length;
@@ -101,7 +77,7 @@ public abstract class MobEntityMixin extends LivingEntity
                     }
                 }
 
-                if (!itemStack.isEmpty() && !EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && (causedByPlayer || bl) && this.random.nextFloat() < f) {
+                if (!itemStack.isEmpty() && !EnchantmentHelper.hasAnyEnchantmentsWith(itemStack, EnchantmentEffectComponentTypes.PREVENT_EQUIPMENT_DROP) && this.random.nextFloat() < f) {
                     if (!bl && itemStack.isDamageable()) {
                         int minDurabilityDrop = 10;
                         itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
