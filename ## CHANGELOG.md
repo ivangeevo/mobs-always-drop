@@ -1,3 +1,7 @@
+## v1.6.1
++ Fixed a bug where skeletons weren't dropping their weapons on death.
++ Updated the mod to Fabric API 0.102.0
+
 ## v1.6
 + Added the ability to toggle if equipment/xp can drop through ModMenu.
 + Fixed mod display name in the mods section to look better.
