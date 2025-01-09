@@ -1,3 +1,8 @@
+## v1.7
++ Changed the mod id from "mobsalwaysdrop" to "mobs_always_drop"
++ Code refactoring/improvements
++ Updated the mod to Fabric API 0.114.0 & Fabric Loader 0.16.9
+
 ## v1.6.1
 + Fixed a bug where skeletons weren't dropping their weapons on death.
 + Updated the mod to Fabric API 0.102.0

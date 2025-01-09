@@ -17,7 +17,7 @@ public class SettingsGUI
     static ModSettings settingsCommon = MobsAlwaysDropMod.getInstance().settings;
     public static Screen createConfigScreen(Screen parent) {
         ConfigBuilder builder = ConfigBuilder.create()
-                .setParentScreen(parent).setTitle(Text.translatable("title.mobsalwaysdrop.config"));
+                .setParentScreen(parent).setTitle(Text.translatable("title.mobs_always_drop.config"));
         builder.setSavingRunnable(() -> {
             MobsAlwaysDropMod.getInstance().saveSettings();
 
@@ -26,19 +26,19 @@ public class SettingsGUI
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("config.mobsalwaysdrop.category.general"));
+        ConfigCategory general = builder.getOrCreateCategory(Text.translatable("config.mobs_always_drop.category.general"));
 
         /** General Category**/
         general.addEntry(entryBuilder
                 .startBooleanToggle(
-                        Text.translatable("config.mobsalwaysdrop.xpDropsEnabled"), settingsCommon.xpDropsEnabled)
+                        Text.translatable("config.mobs_always_drop.xpDropsEnabled"), settingsCommon.xpDropsEnabled)
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> settingsCommon.xpDropsEnabled = newValue)
                 .build());
 
         general.addEntry(entryBuilder
                 .startBooleanToggle(
-                        Text.translatable("config.mobsalwaysdrop.equipmentDropsEnabled"), settingsCommon.equipmentDropsEnabled)
+                        Text.translatable("config.mobs_always_drop.equipmentDropsEnabled"), settingsCommon.equipmentDropsEnabled)
                 .setDefaultValue(true)
                 .setSaveConsumer(newValue -> settingsCommon.equipmentDropsEnabled = newValue)
                 .build());
