@@ -1,7 +1,7 @@
-package ivangeevo.mobsalwaysdrop;
+package ivangeevo.mobs_always_drop;
 
 import com.google.gson.Gson;
-import ivangeevo.mobsalwaysdrop.config.ModSettings;
+import ivangeevo.mobs_always_drop.config.ModSettings;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ public class MobsAlwaysDropMod implements ModInitializer
 {
 
     public static final String MOD_ID = "mobs_always_drop";
-    public static final Logger LOGGER = LoggerFactory.getLogger("mobs_always_drop");
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     private static final File configFile = new File("config/mobsalwaysdrop.properties");
     public ModSettings settings;

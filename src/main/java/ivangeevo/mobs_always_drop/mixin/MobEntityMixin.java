@@ -1,6 +1,6 @@
-package ivangeevo.mobsalwaysdrop.mixin;
+package ivangeevo.mobs_always_drop.mixin;
 
-import ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod;
+import ivangeevo.mobs_always_drop.MobsAlwaysDropMod;
 import net.minecraft.component.EnchantmentEffectComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Arrays;
 
@@ -42,10 +41,8 @@ public abstract class MobEntityMixin extends LivingEntity
      * Change armor and item drop chances to 1.0F (100% drop chance).
      **/
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("TAIL"))
-    private void injectedConstructor(EntityType entityType, World world, CallbackInfo ci)
-    {
-        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled())
-        {
+    private void injectedConstructor(EntityType<? extends MobEntity> entityType, World world, CallbackInfo ci) {
+        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled()) {
             return;
         }
 
@@ -57,7 +54,6 @@ public abstract class MobEntityMixin extends LivingEntity
      * Removes the (causedByPlayer || bl) boolean checks so that it will always drop equipment regardless of cause of death.
      **/
     // Also added a minimum durability drop int condition, so there isn't so many "empty damage" items.
-
     @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
     private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         super.dropEquipment(world, source, causedByPlayer);

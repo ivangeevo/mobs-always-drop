@@ -1,6 +1,6 @@
-package ivangeevo.mobsalwaysdrop.config;
+package ivangeevo.mobs_always_drop.config;
 
-import ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod;
+import ivangeevo.mobs_always_drop.MobsAlwaysDropMod;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -29,8 +29,6 @@ public class SettingsGUI
         ConfigCategory general = builder.getOrCreateCategory(Text.translatable("config.mobsalwaysdrop.category.general"));
 
         /** General Category**/
-
-
         general.addEntry(entryBuilder
                 .startBooleanToggle(
                         Text.translatable("config.mobsalwaysdrop.xpDropsEnabled"), settingsCommon.xpDropsEnabled)

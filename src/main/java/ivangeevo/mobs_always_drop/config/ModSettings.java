@@ -1,4 +1,4 @@
-package ivangeevo.mobsalwaysdrop.config;
+package ivangeevo.mobs_always_drop.config;
 
 public class ModSettings
 {
