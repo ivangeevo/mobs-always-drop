@@ -58,7 +58,6 @@ public abstract class MobEntityMixin extends LivingEntity
     private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
         super.dropEquipment(world, source, causedByPlayer);
         EquipmentSlot[] var4 = EquipmentSlot.values();
-        int var5 = var4.length;
 
         for (EquipmentSlot equipmentSlot : var4) {
             ItemStack itemStack = this.getEquippedStack(equipmentSlot);
