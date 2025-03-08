@@ -1,6 +1,7 @@
 ## v1.7
 + Changed the mod id from "mobsalwaysdrop" to "mobs_always_drop"
 + Code refactoring/improvements
++ Preparation update for moving to higher Minecraft versions
 + Updated the mod to Fabric API 0.115.1 & Fabric Loader 0.16.10
 
 ## v1.6.1
