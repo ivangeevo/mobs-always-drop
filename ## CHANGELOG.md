@@ -1,5 +1,23 @@
+## v1.8
++ Added the ability for zombie villagers to drop their equipment on death & also preserve their equipment on conversion to a villager
++ Fixed wrong message on failed to save configuration settings for the mod
++ Updated the mod to Fabric API 0.116.0 & Fabric Loader 0.16.14
+
+## v1.7
++ Preparation update for moving to higher Minecraft versions
++ Changed the mod id from "mobsalwaysdrop" to "mobs_always_drop"
++ Code refactoring/improvements
++ Updated the mod to Fabric API 0.115.1 & Fabric Loader 0.16.10
+
+
+## v1.6.1
++ Fixed a bug where skeletons weren't dropping their weapons on death.
++ Updated the mod to Fabric API 0.102.0
+
 ## v1.6
 + Added the ability to toggle if equipment/xp can drop through ModMenu.
++ Fixed mod display name in the mods section to look better.
++ Updated to the latest Fabric API and Fabric loader dependencies for each version respectively.
 
 ## v1.5
 + Fixed a bug that made mobs NOT able to pick up items

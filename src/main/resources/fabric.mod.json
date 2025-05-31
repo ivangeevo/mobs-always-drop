@@ -1,6 +1,6 @@
 {
   "schemaVersion":1,
-  "id":"mobs-always-drop",
+  "id":"mobs_always_drop",
   "version":"${version}",
   "name":"Mobs Always Drop",
   "description":"",
@@ -10,22 +10,19 @@
   "contact":{
     "repo":"https://github.com/ivangeevo/mobs-always-drop/tree/1.20.1/release"
   },
-  "license":"All-Rights-Reserved",
-  "icon":"assets/mobs-always-drop/icon.png",
+  "license":"MIT",
+  "icon":"assets/mobs_always_drop/icon.png",
   "environment":"*",
   "entrypoints":{
     "client":[
-      "ivangeevo.mobsalwaysdrop.client.MobsAlwaysDropClient"
+      "ivangeevo.mobs_always_drop.client.MobsAlwaysDropClient"
     ],
     "main":[
-      "ivangeevo.mobsalwaysdrop.MobsAlwaysDropMod"
-    ],
-    "modmenu": [
-      "ivangeevo.mobsalwaysdrop.config.ModMenuMain"
+      "ivangeevo.mobsalwaysdrop.MobsAlwaysDrop"
     ]
   },
   "mixins":[
-    "mobs-always-drop.mixins.json"
+    "mobs_always_drop.mixins.json"
   ],
   "depends":{
     "fabricloader":">=${loader_version}",

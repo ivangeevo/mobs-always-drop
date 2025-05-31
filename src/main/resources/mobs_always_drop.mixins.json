@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "ivangeevo.mobs_always_drop.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "LivingEntityMixin",
+    "MobEntityMixin",
+    "ZombieVillagerEntityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

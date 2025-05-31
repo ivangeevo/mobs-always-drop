@@ -1,20 +1,23 @@
-package ivangeevo.mobsalwaysdrop;
+package ivangeevo.mobs_always_drop;
 
 import com.google.gson.Gson;
-import ivangeevo.mobsalwaysdrop.config.ModSettings;
+import ivangeevo.mobs_always_drop.config.ModSettings;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MobsAlwaysDropMod implements ModInitializer
 {
 
     public static final String MOD_ID = "mobs_always_drop";
-    public static final Logger LOGGER = LoggerFactory.getLogger("mobs_always_drop");
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    private static final File configFile = new File("config/mobsalwaysdrop.properties");
+    private static final File configFile = new File("./config/btwr/mobsAlwaysDropCommon.json");
     public ModSettings settings;
     private static MobsAlwaysDropMod instance;
 
@@ -23,8 +26,7 @@ public class MobsAlwaysDropMod implements ModInitializer
     }
 
     @Override
-    public void onInitialize()
-    {
+    public void onInitialize() {
         // Load settings when the mod initializes
         loadSettings();
         instance = this;
@@ -57,10 +59,7 @@ public class MobsAlwaysDropMod implements ModInitializer
             fileWriter.write(gson.toJson(settings));
             fileWriter.close();
         } catch (IOException e) {
-            LOGGER.warn("Could not save Tough Environment settings: " + e.getLocalizedMessage());
+            LOGGER.warn("Could not save Mobs Always Drops settings: " + e.getLocalizedMessage());
         }
     }
-
 }
-
-

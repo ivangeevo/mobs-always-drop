@@ -1,4 +1,4 @@
-package ivangeevo.mobsalwaysdrop.client;
+package ivangeevo.mobs_always_drop.client;
 
 import net.fabricmc.api.ClientModInitializer;
 
