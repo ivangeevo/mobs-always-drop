@@ -17,7 +17,7 @@ public class MobsAlwaysDropMod implements ModInitializer
     public static final String MOD_ID = "mobs_always_drop";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    private static final File configFile = new File("config/mobsalwaysdrop.properties");
+    private static final File configFile = new File("./config/btwr/mobsAlwaysDropCommon.json");
     public ModSettings settings;
     private static MobsAlwaysDropMod instance;
 
@@ -59,7 +59,7 @@ public class MobsAlwaysDropMod implements ModInitializer
             fileWriter.write(gson.toJson(settings));
             fileWriter.close();
         } catch (IOException e) {
-            LOGGER.warn("Could not save Tough Environment settings: " + e.getLocalizedMessage());
+            LOGGER.warn("Could not save Mobs Always Drops settings: " + e.getLocalizedMessage());
         }
     }
 }
