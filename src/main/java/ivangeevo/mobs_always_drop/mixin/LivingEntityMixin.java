@@ -1,5 +1,6 @@
-package ivangeevo.mobsalwaysdrop.mixin;
+package ivangeevo.mobs_always_drop.mixin;
 
+import ivangeevo.mobs_always_drop.MobsAlwaysDropMod;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.damage.DamageSource;
