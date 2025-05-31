@@ -16,7 +16,7 @@ public abstract class LivingEntityMixin  extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "shouldAlwaysDropXp", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "shouldAlwaysDropExperience", at = @At("HEAD"), cancellable = true)
     private void setMobsAlwaysDropXP(CallbackInfoReturnable<Boolean> cir) {
         if (!MobsAlwaysDropMod.getInstance().settings.isXpDropsEnabled()) {
             return;

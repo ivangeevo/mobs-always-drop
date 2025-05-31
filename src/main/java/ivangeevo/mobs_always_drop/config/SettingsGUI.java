@@ -13,10 +13,7 @@ public class SettingsGUI {
     public static Screen createConfigScreen(Screen parent) {
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent).setTitle(Text.translatable("title.mobs_always_drop.config"));
-        builder.setSavingRunnable(() -> {
-            MobsAlwaysDropMod.getInstance().saveSettings();
-
-        });
+        builder.setSavingRunnable(() -> MobsAlwaysDropMod.getInstance().saveSettings());
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
