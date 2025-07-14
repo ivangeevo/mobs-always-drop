@@ -56,6 +56,9 @@ public abstract class MobEntityMixin extends LivingEntity
     // Also added a minimum durability drop int condition, so there isn't so many "empty damage" items.
     @Inject(method = "dropEquipment(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/damage/DamageSource;Z)V", at = @At("HEAD"), cancellable = true)
     private void injectedDropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer, CallbackInfo ci) {
+        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled()) {
+            return;
+        }
         super.dropEquipment(world, source, causedByPlayer);
         EquipmentSlot[] var4 = EquipmentSlot.values();
 
