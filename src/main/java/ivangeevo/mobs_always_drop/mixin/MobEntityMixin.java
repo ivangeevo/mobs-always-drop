@@ -44,6 +44,9 @@ public abstract class MobEntityMixin extends LivingEntity
             )
     )
     private void alwaysDropAndCustomDurability(CallbackInfo ci, @Local ItemStack itemStack) {
+        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled()) {
+            return;
+        }
         if (itemStack.isDamageable()) {
             int minDurabilityDrop = 10;
             itemStack.setDamage(itemStack.getMaxDamage() - minDurabilityDrop - this.random.nextInt(1 + this.random.nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));

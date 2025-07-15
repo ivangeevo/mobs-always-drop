@@ -1,5 +1,6 @@
 package ivangeevo.mobs_always_drop.mixin;
 
+import ivangeevo.mobs_always_drop.MobsAlwaysDropMod;
 import net.minecraft.entity.EquipmentDropChances;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.util.Util;
@@ -19,6 +20,9 @@ public abstract class EquipmentDropChancesMixin {
     // Set the base equipment drop chance to 2.0f which apparently translates to 100% chance
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void modifyDefaultDropChances(CallbackInfo ci) {
+        if (!MobsAlwaysDropMod.getInstance().settings.isEquipmentDropsEnabled()) {
+            return;
+        }
         DEFAULT = new EquipmentDropChances(Util.mapEnum(EquipmentSlot.class, slot -> 2.0f));
     }
 }
