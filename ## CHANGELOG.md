@@ -1,3 +1,6 @@
+## v???(dev)
++ Updated the mod to Fabric API 0.116.15 & Fabric Loader 0.19.3
+
 ## v1.8
 + Added the ability for zombie villagers to drop their equipment on death & also preserve their equipment on conversion to a villager
 + Fixed wrong message on failed to save configuration settings for the mod
