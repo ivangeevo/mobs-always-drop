@@ -11,9 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class MobsAlwaysDropMod implements ModInitializer
-{
-
+public class MobsAlwaysDropMod implements ModInitializer {
     public static final String MOD_ID = "mobs_always_drop";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
